@@ -13,10 +13,6 @@ Step 3
 <img src="img/output/step3_rmse.PNG"/>
 <img src="img/output/step3_tracking.PNG"/>
 
-Step 4
-<img src="img/output/step4_rmse.PNG"/>
-<img src="img/output/step4_tracking.PNG"/>
-
 ### 1. Write a short recap of the four tracking steps and what you implemented there (filter, track management, association, camera fusion). Which results did you achieve? Which part of the project was most difficult for you to complete, and why?
 
 **filter.py**
