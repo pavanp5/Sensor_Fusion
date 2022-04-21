@@ -10,8 +10,8 @@ Step 2
 <img src="img/output/step2_tracking.PNG"/>
 
 Step 3
-<img src="img/output/step3_rmse.PNG"/>
-<img src="img/output/step3_tracking.PNG"/>
+<img src="img/output/step 3_rmse.PNG"/>
+<img src="img/output/step 3_tracking.PNG"/>
 
 Step 4
 <img src="img/output/step4_rmse.PNG"/>
