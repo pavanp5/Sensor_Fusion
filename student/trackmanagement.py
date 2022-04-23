@@ -34,20 +34,11 @@ class Track:
         # unassigned measurement transformed from sensor to vehicle coordinates
         # - initialize track state and track score with appropriate values
         ############
-
-        self.x = np.matrix([[49.53980697],
-                        [ 3.41006279],
-                        [ 0.91790581],
-                        [ 0.        ],
-                        [ 0.        ],
-                        [ 0.        ]])
-        self.P = np.matrix([[9.0e-02, 0.0e+00, 0.0e+00, 0.0e+00, 0.0e+00, 0.0e+00],
-                        [0.0e+00, 9.0e-02, 0.0e+00, 0.0e+00, 0.0e+00, 0.0e+00],
-                        [0.0e+00, 0.0e+00, 6.4e-03, 0.0e+00, 0.0e+00, 0.0e+00],
-                        [0.0e+00, 0.0e+00, 0.0e+00, 2.5e+03, 0.0e+00, 0.0e+00],
-                        [0.0e+00, 0.0e+00, 0.0e+00, 0.0e+00, 2.5e+03, 0.0e+00],
-                        [0.0e+00, 0.0e+00, 0.0e+00, 0.0e+00, 0.0e+00, 2.5e+01]])
-        
+        #pos_sens = np.zeros((6,1))
+        #pos_sens[0:3] = meas.z[0:3]
+        #pos_veh = meas.sensor.sens_to_veh*pos_sens
+        #self.x = np.zeros((6,1))
+        #self.x[0:3] = pos_veh[0:3]
         
         self.x=np.zeros((6,1))
         self.x[0:3]=meas.z[0:3]
@@ -119,28 +110,30 @@ class Trackmanagement:
         for i in unassigned_tracks:
             track = self.track_list[i]
             #print("unassigned_tracks {}",i)
-                     
+            track.set_idle(track.idle+1)         
             if meas_list:
-                if meas_list[0].sensor.in_fov(track.x):
+                if meas_list[0].sensor.in_fov(track.x):                    
                     track.score = track.score -params.decrease_score
                     self.track_list[i]=track
 
-        ############
-        # END student code
-        ############ 
-            
         # initialize new track with unassigned measurement
         for j in unassigned_meas:# only initialize with lidar measurements
             if meas_list[j].sensor.name == 'lidar':
                 self.init_track(meas_list[j])
         
         for i in unassigned_tracks:
-            track = self.track_list[i]
-            
+            track = self.track_list[i]            
             if (((track.score<params.delete_threshold) and (track.state=='confirmed')) or ((track.idle > params.delete_idle_track) and (track.state=='confirmed'))):
                 self.delete_track(track)
             elif (((track.P[0,0]>params.max_P) or (track.P[1,1]>params.max_P)) or(track.score<-params.delete_threshold_tentative_tr)):
-                self.delete_track(track)
+                self.delete_track(track)                    
+                    
+
+        ############
+        # END student code
+        ############ 
+            
+
             
     def addTrackToList(self, track):
         self.track_list.append(track)

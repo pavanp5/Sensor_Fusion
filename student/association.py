@@ -17,6 +17,7 @@ from scipy.stats.distributions import chi2
 # add project directory to python path to enable relative imports
 import os
 import sys
+import math
 PACKAGE_PARENT = '..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
@@ -85,10 +86,11 @@ class Association:
             ij_min=np.unravel_index(np.argmin(self.association_matrix),self.association_matrix.shape)
             i = track_list[ij_min[0]]
             j = meas_list[ij_min[1]]
-            self.unassigned_tracks.remove(track_list[ij_min[0]])
-            self.unassigned_meas.remove(meas_list[ij_min[1]])
             self.association_matrix=np.delete(self.association_matrix,ij_min[0],0)
             self.association_matrix=np.delete(self.association_matrix,ij_min[1],1)
+            self.unassigned_tracks.remove(track_list[ij_min[0]])
+            self.unassigned_meas.remove(meas_list[ij_min[1]])
+
             
         else:
             i=np.nan
@@ -124,7 +126,7 @@ class Association:
         H = meas.sensor.get_H(track.x)
         gamma = meas.z - meas.sensor.get_hx(track.x)
         S = H*track.P*H.transpose() + meas.R
-        MHD = gamma.transpose()*np.linalg.inv(S)*gamma
+        MHD = math.sqrt(gamma.transpose()*np.linalg.inv(S)*gamma)
         
         #pass
         return MHD

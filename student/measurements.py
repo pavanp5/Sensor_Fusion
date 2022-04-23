@@ -45,9 +45,9 @@ class Sensor:
         veh = x
         
         #return True
-        if ((np.arctan(veh[1]/veh[0])>self.fov[0])and(np.arctan(veh[1]/veh[0])<self.fov[1])):            
+        if ((np.arctan(veh[1]/veh[0])>self.fov[0])and(np.arctan(veh[1]/veh[0])<self.fov[1])):
             return True
-        else:          
+        else:
             return False
 
                 
@@ -132,11 +132,11 @@ class Sensor:
         
         #if self.name == 'lidar':
         if self.name == 'camera':
-           x = z[1] * (50/1920)
-           z[1] = z[0] * (50/1280) -25
-           z[0] = x
-           
-            
+            x = z[1] * (50/1920)
+            z[1] = z[0] * (50/1280) -25
+            z[0] = x
+        
+
         meas = Measurement(num_frame, z, self)
         meas_list.append(meas)
 
